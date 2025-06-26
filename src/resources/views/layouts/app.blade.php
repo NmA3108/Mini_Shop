@@ -57,10 +57,24 @@
                 </a>
 
                 <!-- User (chưa có auth) -->
-                <a href="{{ route('login') }}" class="flex items-center space-x-2 hover:text-pink-700">
-                    <i class="fas fa-user-circle text-xl"></i>
-                    <span class="text-sm">Đăng nhập</span>
-                </a>
+                @if(Auth::check())
+                    <div class="user-menu flex items-center space-x-2">
+                        <span class="text-sm text-pink-600">{{ Auth::user()->name }}</span>
+                        <a href="{{ route('logout') }}"
+                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                           class="text-sm text-pink-600 hover:text-pink-700">
+                            Đăng xuất
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </div>
+                @else
+                    <a href="{{ route('login') }}" class="flex items-center space-x-2 hover:text-pink-700">
+                        <i class="fas fa-user-circle text-xl"></i>
+                        <span class="text-sm">Đăng nhập</span>
+                    </a>
+                @endif
             </div>
         </div>
     </nav>

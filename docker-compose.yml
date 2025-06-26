@@ -37,5 +37,16 @@ services:
     depends_on:
       - app
 
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: laravel-mysql
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+
 volumes:
   dbdata:
+
