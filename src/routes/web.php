@@ -9,6 +9,9 @@ use App\Models\Product;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\AccountController;
 
+use App\Http\Controllers\AdminController;
+use App\Http\Middleware\CheckRole;
+
 // Tạo resource routes cho products
 Route::resource('products', ProductController::class);
 #Route::get('/', [ProductController::class, 'index']);
@@ -28,15 +31,17 @@ Route::get('/', function () {
 //Login
 Route::get('/login', function () {
     return view('auth.login');
-})->name('login');
+})->name('login'); 
 Route::post('/login', function (Request $request) {
     $credentials = $request->only('email', 'password');
-
     if (Auth::attempt($credentials)) {
         $request->session()->regenerate();
-        return redirect()->route('home'); // Sử dụng route name 'home'
+        // Chuyển hướng theo role
+        if (Auth::user()->role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        }
+        return redirect()->route('home');
     }
-
     return back()->withErrors([
         'email' => 'Email hoặc mật khẩu không đúng.',
     ])->withInput();
@@ -56,6 +61,7 @@ Route::post('/register', function (Request $request) {
         'name' => $request->name,
         'email' => $request->email,
         'password' => bcrypt($request->password),
+        'role' => 'user',
     ]);
 
     Auth::login($user);
@@ -69,3 +75,47 @@ Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])->
 Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])->name('password.email');
 Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
 Route::post('/reset-password', [NewPasswordController::class, 'store'])->name('password.update');
+
+//Middleware
+
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::resource('/admin/users', App\Http\Controllers\Admin\UserController::class)->names('admin.users');
+});
+Route::middleware(['auth', 'role:user'])->group(function () {
+    Route::get('/account', [AccountController::class, 'index'])->name('account.index');
+    Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
+});
+
+//Admin dashboard
+Route::get('/admin/dashboard', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.dashboard');
+
+
+// Route::get('/admin/users', function () {
+//     return view('admin/users');
+// })->name('admin.users');
+
+Route::get('/admin/settings', function () {
+    return view('admin.settings');
+})->name('admin.settings');
+
+Route::get('/admin/reports', function () {
+    return view('admin.reports');
+})->name('admin.reports');
+
+Route::get('/privacy', function () {
+    return view('privacy');
+})->name('privacy');
+
+Route::get('/terms', function () {
+    return view('terms');
+})->name('terms');
+
+Route::get('/contact', function () {
+    return view('contact');
+})->name('contact');
+
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect()->route('login');
+})->name('logout');
