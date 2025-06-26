@@ -35,7 +35,6 @@
 
 ![image](https://github.com/user-attachments/assets/2caa5c98-d443-40e3-a302-6564454b9eb4)
 
-```
 
 ---
 
