@@ -385,8 +385,8 @@ function productModal() {
 
 ## 👨‍🎓 Người thực hiện
 **Họ tên:** Nguyễn Minh Ánh  
-**Mã sinh viên:** 23010718
+**Mã sinh viên:** 23010718  
 **Môn học:** Thiết kế Web nâng cao – Giữa kỳ
-```
+
 
 ---
