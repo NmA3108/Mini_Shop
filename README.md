@@ -1,6 +1,6 @@
 # 🛍️ Laravel Mini Shop
 
-**Họ tên sinh viên:** Nguyễn Minh Ánh
+**Họ tên sinh viên:** Nguyễn Minh Ánh  
 **Mã sinh viên:** 23010718
 
 ---
@@ -21,49 +21,20 @@
 
 ## 📦 Class Diagram
 
-```mermaid
-classDiagram
-    class User {
-        +id
-        +name
-        +email
-        +password
-        +role
-    }
-    class Product {
-        +id
-        +name
-        +description
-        +price
-        +image
-    }
-    class Order {
-        +id
-        +user_id
-        +total
-        +status
-    }
-    User "1" --> "*" Order
-```
+![image](https://github.com/user-attachments/assets/11e07bb8-c68f-4f76-bb49-ebaf3468b1c0)
+
 
 ---
 
 ## 🔁 Activity Diagram
 
 ### 1. Tạo sản phẩm
-```mermaid
-graph TD
-    A[Chọn thâm sản phẩm] --> B[Điền các thông tin sản phẩm]
-    B --> C[Lưu sản phẩm]
-    C --> D[Hiển thị]
-```
+![image](https://github.com/user-attachments/assets/f996408a-761e-4c95-b66b-b47b7185cb03)
 
 ### 2. Tìm kiếm sản phẩm 
-```mermaid
-graph TD
-    A[Nhập từ khóa] --> B[Truy vấn Products]
-    B --> C[Lấy danh sách sản phẩm]
-    C --> D[Hiển thị]
+
+![image](https://github.com/user-attachments/assets/2caa5c98-d443-40e3-a302-6564454b9eb4)
+
 ```
 
 ---
